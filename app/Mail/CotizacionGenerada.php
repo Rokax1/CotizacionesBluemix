@@ -13,15 +13,17 @@ class CotizacionGenerada extends Mailable
     use Queueable, SerializesModels;
     public $cliente;
     public $pdf;
+    public $tipo;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Cliente $cliente,$pdf)
+    public function __construct(Cliente $cliente,$pdf,$tipo ='Admin')
     {
         $this->cliente = $cliente;
         $this->pdf = $pdf;
+        $this->tipo;
     }
 
     /**
@@ -33,6 +35,11 @@ class CotizacionGenerada extends Mailable
     {
         $cliente = $this->cliente;
         $pdf = $this->pdf;
-        return $this->attachData($pdf,'Cotizacion.pdf',['mime' => 'aplication/pdf'])->view('emails.emailCotizacion',compact('cliente'));
+        if($tipo == 'Admin'){
+            return $this->view('emails.emailCotizacionAdmin',compact('cliente'));
+        }else{
+            return $this->view('emails.emailCotizacion',compact('cliente'));
+        }
+        
     }
 }

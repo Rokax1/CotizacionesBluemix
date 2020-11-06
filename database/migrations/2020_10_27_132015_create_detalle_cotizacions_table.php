@@ -18,6 +18,8 @@ class CreateDetalleCotizacionsTable extends Migration
             $table->bigInteger('cantidad');
             $table->bigInteger('valor');
             $table->bigInteger('uid_jumpseller');
+            $table->bigInteger('uid_variante')->nullable();
+            $table->enum('tipo',['Producto','Variante']);
             $table->boolean('sin_stock');
             $table->foreignId('producto_id')->constrained('productos')->onDelete('cascade');
             $table->foreignId('cotizacion_id')->constrained('cotizacions')->onDelete('cascade');

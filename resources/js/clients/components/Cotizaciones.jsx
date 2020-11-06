@@ -55,6 +55,10 @@ function Row(props) {
     setCotizacion(cotizacion);
   }
 
+  const handleOnCloseDialog = () => {
+    setOpenDialog(false);
+  }
+
   const deleteCotizacion = () => {
     confirm({ description: 'Esta acción eliminará todo registro de la cotización, confirmar?' })
       .then(() => { 
@@ -189,7 +193,7 @@ export default function TablaCotizaciones({cotizaciones,...rest}) {
             rowsPerPage={5}
             rowsPerPageOptions={[5, 10, 25]}
           />
-          <DialogShowCotizacion open={openDialog} cotizacion={cotizacion}></DialogShowCotizacion>
+          <DialogShowCotizacion open={openDialog} cotizacion={cotizacion} onCloseDialog={ () => setOpenDialog(false)}></DialogShowCotizacion>
           </Card>
            : <Typography variant="h6" color="initial">No Se Encontraron Resultados</Typography>
         }

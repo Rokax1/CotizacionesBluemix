@@ -24,7 +24,7 @@
           
               <div style="Margin-left: 20px;Margin-right: 20px;">
           <div style="font-size: 12px;font-style: normal;font-weight: normal;line-height: 19px;Margin-bottom: 20px;" align="center">
-               <img src="https://i.ibb.co/vjb6Bv0/bluemix.png" alt="isotipoincap" border="0" />
+               <img src="https://i.ibb.co/vjb6Bv0/bluemix.png" width="200" height="100" alt="isotipoincap" border="0" />
           </div>
         </div>
           
@@ -87,7 +87,7 @@
            
               <div class="column" style="text-align: left;font-size: 12px;line-height: 19px;color: #bdb9bd;font-family: Cabin,Avenir,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
                 <div style="Margin-left: 20px;Margin-right: 20px;Margin-top: 10px;Margin-bottom: 10px;">
-                 
+                 PORFAVOR, NO RESPONDER ESTE CORREO.
                 </div>
               </div>
            

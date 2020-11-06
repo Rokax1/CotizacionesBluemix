@@ -2,6 +2,7 @@
 const dataProducts = {
     productos : [],
     loaderProductos : true,
+    productosDestacados:[],
     paginas : 10,
     page : 1,
     category : 'todas',
@@ -16,6 +17,7 @@ const SET_LOADER = 'SET_LOADER';
 const SET_LOADER_PRICE = 'SET_LOADER_PRICE';
 const SET_CATEGORY = 'SET_CATEGORY';
 const SET_PAGE = 'SET_PAGE';
+const GET_PRODUCTS_DESTACADOS = 'GET_PRODUCTS_DESTACADOS';
 const SET_QUERY = 'SET_QUERY';
 //reducer
 
@@ -33,6 +35,8 @@ export default function productsReducer(state = dataProducts,action) {
             return {...state, page: action.payload}
         case SET_QUERY:
             return {...state, query: action.payload}
+        case GET_PRODUCTS_DESTACADOS:
+            return {...state, productosDestacados: action.payload}
         default:
             return state;
     }
@@ -113,5 +117,21 @@ function setQuery(dispatch,query){
         type: SET_QUERY,
         payload : query
     })   
+}
+
+export const getProductosDestacados =  () => async (dispatch,getState) => {
+    try {
+        const products = await axios.get("product?page="+1+"&category="+ 774201 + "&querySearch=" + false);
+        dispatch({
+            type: GET_PRODUCTS_DESTACADOS,
+            payload : products.data.productos
+        })
+        return products.data;
+    } catch (e) {
+        console.log(e);
+        return false;
+    }finally{
+       
+    }
 }
 

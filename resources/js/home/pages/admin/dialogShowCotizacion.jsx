@@ -28,21 +28,21 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function DialogShowCotizacion({open,handleClose,cotizacion}){
+export default function DialogShowCotizacion({open,onCloseDialog,cotizacion}){
     
   const classes = useStyles();
 
   return (
-      <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+      <Dialog fullScreen open={open} onClose={onCloseDialog} TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>
           <Toolbar>
-            <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+            <IconButton edge="start" color="inherit" onClick={onCloseDialog} aria-label="close">
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
               Cotización Nº {cotizacion.id}
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
+            <Button autoFocus color="inherit" onClick={onCloseDialog}>
               Cerrar
             </Button>
           </Toolbar>

@@ -23,6 +23,7 @@ import ShoppingCart, { StepsPageCotizacion } from "../../products/pages/stepsPag
 import DialogEditClient from "../../clients/components/DialogEditClient";
 import PasswordChangePage from "../../clients/pages/PasswordChangePage";
 import CotizacionesPage from "../../clients/pages/CotizacionesPage";
+import HomePrincipalCliente from "../../clients/pages/HomePrincipalClientes";
 
 export function ClientBasePage() {
     const history = useHistory();
@@ -48,7 +49,8 @@ export function ClientBasePage() {
                     <main className={classes.content}>
                  
                         <Switch>
-                            <Route path="/" exact={true} render={()=><HomeClient history={history}/>}/>
+                            <Route path="/" exact={true} render={()=><HomePrincipalCliente history={history}/>}/>
+                            <Route path="/productos" exact={true} render={()=><HomeClient history={history}/>}/>
                             <Route path="/cart" exact={true} render={()=><StepsPageCotizacion history={history}/>}/>
                             <Route path="/details/:id" exact={true} render={()=><DetailsPage history={history}/>}/>
                             <Route path="/password-change" exact={true} render={ () => <PasswordChangePage history={history}></PasswordChangePage>} />

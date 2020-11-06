@@ -40,23 +40,27 @@ export default function VariantItemComponent(props){
     const cart = useSelector(state => state.cart.products);
     const {variante,product} = props;
     const img =  variante.image ?  variante.image : product.images[0];
-    const agregarProductoCarro = (produc,isExist) => {
-        dispatch(addCartProductAction(product));
+    const agregarProductoCarro = (producto,isExist) => {
+        console.log(producto)
+        dispatch(addCartProductAction(producto));
         const message = isExist ? 'Cantidad Actualizada, Total: ' + isExist.quantity : 'Producto Agregado Correctamente';
         enqueueSnackbar(message, { 
             variant: 'success',
         });
     }
     const handleVariantAddToCart = () => {
-        product.quantity = 1;
-        product.id = variante.id;
-        product.stock = variante.stock;
-        product.details = variante.options[0].name + ": " + variante.options[0].value;
-        product.sku = variante.sku;
-        product.image = img;
-        product.price = variante.price;
-        const producto = product;
-        const isExist = cart.find( p => p.id === product.id);
+        const producto = {...product};
+        const producto_id = product.id;
+        producto.quantity = 1;
+        producto.producto_id = producto_id;
+        producto.id = variante.id;
+        producto.stock = variante.stock;
+        producto.details = variante.options[0].name + ": " + variante.options[0].value;
+        producto.sku = variante.sku;
+        producto.tipo = 'Variante';
+        producto.image = img;
+        producto.price = variante.price;
+        const isExist = cart.find( p => p.id === producto.id);
         if(isExist){
             if(isExist.quantity >= producto.stock){
               confirm({ description: 'la cantidad de productos que estas cotizando excede nuestro stock, Quieres cotizarlo de todas maneras ?' })

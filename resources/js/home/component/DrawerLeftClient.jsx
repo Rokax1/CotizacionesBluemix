@@ -83,6 +83,30 @@ export function DrawerLeftClient() {
                                     }
                                 />
                             </ListItemIcon>
+                            <Box fontSize={14}>Inicio</Box>
+                        </ListItem>
+                        <ListItem
+                            selected={
+                                location.pathname === "/productos" ? true : false
+                            }
+                            button
+                            onClick={handleDrawerClose}
+                            component={NavLink}
+                            to="/productos"
+                            className={clsx({
+                                [classes.listItemDrawerClose]: !stateStoreDrawer,
+                                [classes.listItemDrawerOpen]: stateStoreDrawer
+                            })}
+                        >
+                            <ListItemIcon>
+                                <LoyaltyIcon
+                                    style={
+                                        location.pathname === "/productos"
+                                            ? { color: "#2720FF" }
+                                            : {}
+                                    }
+                                />
+                            </ListItemIcon>
                             <Box fontSize={14}>Productos</Box>
                         </ListItem>
                         <ListItem

@@ -49,26 +49,9 @@ function Item({item})
             <CardActionArea>
                 <CardMedia
                 className={classes.media}
-                image="https://picsum.photos/1920/240"
+                image="https://picsum.photos/1920/240" // aca se deberia iterar la foto del item de la bd dinamicamente
                 title={item.name}
                 />
-                <div style={{
-                          position: 'absolute', 
-                          color: 'white', 
-                          top: 8, 
-                          left: '50%', 
-                          transform: 'translateX(-50%)'
-                        }} >
-                            <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                    {item.name}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                    {item.description}
-                </Typography>
-                </CardContent>
-                        </div>
-                
             </CardActionArea>
         </Card>
     )

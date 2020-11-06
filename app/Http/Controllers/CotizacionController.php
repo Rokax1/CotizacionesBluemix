@@ -71,8 +71,10 @@ class CotizacionController extends Controller
                 $producto = Producto::Sku($detalle['sku'])->first();
                 $det_cot = new DetalleCotizacion();
                 $det_cot->producto_id = $producto->id;
-                $det_cot->uid_jumpseller = $detalle['id'];
+                $det_cot->uid_variante = isset($detalle['producto_id']) ? $detalle['id'] : null;
+                $det_cot->uid_jumpseller = isset($detalle['producto_id']) ? $detalle['producto_id'] : $detalle['id'];
                 $det_cot->sin_stock = $sin_stock;
+                $det_cot->tipo = isset($detalle['tipo']) ? $detalle['tipo'] : 'Producto';
                 $det_cot->valor = $request->tipo == 'IVA' ?  $detalle['price'] : $this->quitarIva($detalle['price']);
                 $det_cot->cantidad = $detalle['quantity'];
                 $det_cot->cotizacion_id = $cotizacion->id;
@@ -106,25 +108,27 @@ class CotizacionController extends Controller
 
     public function sendMail(Request $request){
         $cotizacion = Cotizacion::find($request->cotizacion);
-        //Mail::to('dyjps2012@gmail.com')->send(new CotizacionGenerada($cotizacion->cliente,$pdf)); //email al administrador
+        Mail::to('dyjps2012@gmail.com')->send(new CotizacionGenerada($cotizacion->cliente,[],'Admin')); //email al administrador
         $pdf = PDF::loadView('pdfcotizacion.cotizacion',compact('cotizacion'));
         $pdf = $pdf->output();
         if($cotizacion->cliente->email){
-            Mail::to($cotizacion->cliente->email)->send(new CotizacionGenerada($cotizacion->cliente,$pdf));
+            Mail::to($cotizacion->cliente->email)->send(new CotizacionGenerada($cotizacion->cliente,$pdf,'Cliente'));
         }
     }
 
     public function getDetalles($id){
         $JumpsellerApi = new JumpsellerApi();
+        $url = '';
         $detalles = Cotizacion::find($id)->Detalles;
         $listadoStocks = collect();
         foreach($detalles as $detalle){
             if($detalle->sin_stock){
-                $respuesta = $JumpsellerApi->get("products/$detalle->uid_jumpseller",[]);
-                dd($respuesta);
-                $detalle->stock = $respuesta[0]->product->stock;
-                $listadoStocks->push($detalle);
+                $url = $detalle->tipo == 'Producto' ? "products/$detalle->uid_jumpseller" : "products/$detalle->uid_jumpseller/variants/$detalle->uid_variante";
+                $respuesta = $JumpsellerApi->get($url,[]);
+                $detalle->stock = $detalle->tipo == 'Producto' ? $respuesta[0]->product->stock : $respuesta->variant->stock;
+                
             }
+            $listadoStocks->push($detalle);
         }
         return response()->json($listadoStocks, 200);
     }

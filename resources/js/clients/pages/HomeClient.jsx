@@ -53,9 +53,6 @@ export function HomeClient(){
           <Grid container className={classes.container} spacing={4}
             align="center"
             justify="center">
-            <Grid item lg={12}>
-                <CarruselHome></CarruselHome>
-            </Grid>
             { loader ? <LoaderComponent text="Cargando Productos ..."></LoaderComponent>    : products.map((product,index) => (
                         <Grid item lg={4} md={4} sm={12} key={index}>
                             <CardProduct producto={product.product}></CardProduct>

@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
-import { Paper, Typography } from '@material-ui/core';
+import { Paper, Typography, Button, CircularProgress } from '@material-ui/core';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,6 +10,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { GetDetalles } from '../../../clients/services/cotizacionService';
+
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -31,8 +32,8 @@ const StyledTableRow = withStyles((theme) => ({
 
 export default function ShowCotizacion({cotizacion}){
 
-    const [loader,setLoader]  = useState(true);
-    const [detalles,setDetalles] =  useState([]);
+    const [loader,setLoader]  = useState(null);
+    const [detalles,setDetalles] =  useState(cotizacion.detalles);
 
     const getDetalles = async () => {
         setLoader(true);
@@ -40,6 +41,14 @@ export default function ShowCotizacion({cotizacion}){
         console.log(response);
         setDetalles(response)
         setLoader(false);
+    }
+
+    const stock = (detalle) => {
+        if(loader){
+            return  <StyledTableCell align="right">{ detalle.sin_stock ? <CircularProgress></CircularProgress> : '' }</StyledTableCell>
+        }else{
+           return <StyledTableCell align="right">{detalle.sin_stock && detalle.stock == null ? <Button style={{color: 'red'}} onClick={handleClick}>Sin Stock</Button> : detalle.stock }</StyledTableCell>
+        }
     }
 
     const handleClick =  ()  => {
@@ -50,9 +59,10 @@ export default function ShowCotizacion({cotizacion}){
         <div>
             <Container maxWidth="lg" style={{marginTop: '48px'}}>
                 <Grid container>
-                        <Grid item xs={12} component={Paper}>
-                            <Typography variant="h6" color="initial" onClick={handleClick}>Cotización Nº {cotizacion.id}</Typography>
+                        <Grid item sm={12} component={Paper}>
+                            <Typography variant="h6" style={{marginLeft:'15px'}} color="initial" >{cotizacion.cliente.razon_social}</Typography>
                         </Grid>
+                        
                         <Grid item xs={12}>
                             <TableContainer component={Paper}>
                                 <Table aria-label="customized table">
@@ -63,6 +73,7 @@ export default function ShowCotizacion({cotizacion}){
                                         <StyledTableCell align="right">Marca</StyledTableCell>
                                         <StyledTableCell align="right">Cantidad</StyledTableCell>
                                         <StyledTableCell align="right">Precio Unitario</StyledTableCell>
+                                        <StyledTableCell align="right">Total</StyledTableCell>
                                         <StyledTableCell align="right">Stock Actual</StyledTableCell>
                                     </TableRow>
                                     </TableHead>
@@ -70,13 +81,14 @@ export default function ShowCotizacion({cotizacion}){
                                     {detalles?.map((detalle,index) => (
                                         <StyledTableRow key={index}>
                                         <StyledTableCell component="th" scope="row">
-                                            {detalle.codigo}
+                                            {detalle.producto.codigo}
                                         </StyledTableCell>
                                         <StyledTableCell align="right">{detalle.producto.descripcion}</StyledTableCell>
                                         <StyledTableCell align="right">{detalle.producto.marca}</StyledTableCell>
                                         <StyledTableCell align="right">{detalle.cantidad}</StyledTableCell>
                                         <StyledTableCell align="right">{detalle.valor}</StyledTableCell>
-                                        <StyledTableCell align="right">{detalle.stock}</StyledTableCell>
+                                        <StyledTableCell align="right">{(detalle.valor * detalle.cantidad)}</StyledTableCell>
+                                        { stock(detalle) }
                                         </StyledTableRow>
                                     ))}
                                     </TableBody>
