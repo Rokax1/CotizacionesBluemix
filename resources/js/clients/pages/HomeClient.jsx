@@ -12,6 +12,9 @@ import Pagination from '@material-ui/lab/Pagination';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { getProductsAction } from '../../redux/productDucks';
 import LoaderComponent from '../../home/component/LoaderComponent';
+import CarruselHome from '../../home/component/carruselHome';
+
+
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -22,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 export function HomeClient(){
     let { category } = useParams();
     const classes = useStyles();
-    const loader = useSelector(store => store.productos.loader);
+    const loader = useSelector(store => store.productos.loaderProductos);
     const page = useSelector(store => store.productos.page);
     const paginas = useSelector(store => store.productos.paginas);
     const dispatch = useDispatch();
@@ -50,6 +53,9 @@ export function HomeClient(){
           <Grid container className={classes.container} spacing={4}
             align="center"
             justify="center">
+            <Grid item lg={12}>
+                <CarruselHome></CarruselHome>
+            </Grid>
             { loader ? <LoaderComponent text="Cargando Productos ..."></LoaderComponent>    : products.map((product,index) => (
                         <Grid item lg={4} md={4} sm={12} key={index}>
                             <CardProduct producto={product.product}></CardProduct>

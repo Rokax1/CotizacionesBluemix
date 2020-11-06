@@ -4,7 +4,8 @@ import {
     HANDLE_OPEN_DRAWER_CATEGORIES,
     HANDLE_SHOW_ERRORS_FORMS,
     HANDLE_SHOW_LINEAR_PROGESS,
-    HANDLE_DETAILS_SELECTED
+    HANDLE_DETAILS_SELECTED,
+    HANDLE_OPEN_DIALOG_CLIENT_EDIT
 } from "./types";
 
 const statePointOfSales = {
@@ -14,6 +15,7 @@ const statePointOfSales = {
     loadingAutenticated: false,
     openDrawer: false,
     openDrawerCategories:false,
+    openDialogEditClient:false,
     openSnackbar: {
         show: false,
         message: ""
@@ -38,7 +40,12 @@ const globalActionsReducer = (state = statePointOfSales, action) => {
             return {
                 ...state,
                 openDrawerCategories: action.value
-            };    
+            };
+        case HANDLE_OPEN_DIALOG_CLIENT_EDIT:
+            return {
+                ...state,
+                openDialogEditClient: action.value
+            };     
         case OPEN_SNACKBAR:
             return {
                 ...state,

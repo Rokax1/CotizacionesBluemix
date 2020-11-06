@@ -1,14 +1,16 @@
 //constantes 
 const dataProducts = {
     productos : [],
-    loader : false,
+    loaderProductos : true,
     paginas : 10,
     page : 1,
     category : 'todas',
     query : false,
+    producto: [],
 }
 
 const GET_PRODUCTS_SUCCESS = 'GET_PRODUCTS_SUCCESS';
+const GET_PRODUCT_SUCCESS = 'GET_PRODUCT_SUCCESS';
 const GET_PRODUCTS_ERROR = 'GET_PRODUCTS_ERROR';
 const SET_LOADER = 'SET_LOADER';
 const SET_LOADER_PRICE = 'SET_LOADER_PRICE';
@@ -21,8 +23,10 @@ export default function productsReducer(state = dataProducts,action) {
     switch (action.type) {
         case GET_PRODUCTS_SUCCESS:
             return { ...state, productos: action.payload.productos, paginas: action.payload.paginas}
+        case GET_PRODUCT_SUCCESS:
+            return { ...state, producto: action.payload.producto}
         case SET_LOADER:
-            return { ...state, loader: action.payload}
+            return { ...state, loaderProductos: action.payload}
         case SET_CATEGORY:
             return {...state, category: action.payload}
         case SET_PAGE:
@@ -68,37 +72,24 @@ export const getProductsAction = (category, pagina = 1,querySearch = false) => a
         }
 }
 
-/* export const getProductsActionJumseller = () => async (dispatch,getState) => {
-
-    let credentials = new URLSearchParams({
-        login: "542be9ea3442c76231e0428e2ff39c2a", 
-        authtoken:"2778f682abfe2af64b289640be2e7ebb",
-        limit: 21
-    });
-
+export const getProductAction = (id) => async (dispatch,getState) => {   
+    
     try {
+        const product = await axios.get('getProduct/' + id);
+        console.log(product.data.product);
         dispatch({
-            type: SET_LOADER,
-            payload : true
+            type: GET_PRODUCT_SUCCESS,
+            payload : {
+                producto : product.data.product,
+            }
         })
-        let url = encodeURI('https://api.jumpseller.com/v1/products.json?' + credentials);
-        let response = await fetch(url);
-        let data = await response.json();
-        console.log(data);
-        dispatch({
-            type: GET_PRODUCTS_SUCCESS,
-            payload : data
-        })
-        dispatch({
-            type: SET_LOADER,
-            payload : false
-        })
-        return data;
+        return products.data;
     } catch (e) {
         console.log(e);
         return false;
     }
-} */
+}
+
 
 function setCategory(dispatch,category){
     
@@ -123,3 +114,4 @@ function setQuery(dispatch,query){
         payload : query
     })   
 }
+

@@ -1,5 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import { red } from '@material-ui/core/colors';
+import { useConfirm } from 'material-ui-confirm';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -12,10 +13,11 @@ import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {addCartProductAction,RemoveCartProductAction} from '../../redux/cartDucks';
 import { useDispatch, useSelector } from 'react-redux';
-import { Fade, Grow } from '@material-ui/core';
+import { Badge, Fade, Grow } from '@material-ui/core';
 import ListIcon from '@material-ui/icons/List';
 import AlertDialogSlide from './dialogVariant';
 import { useSnackbar } from 'notistack';
+import { NavLink } from 'react-router-dom';
 
 
 
@@ -49,9 +51,11 @@ const useStyles = makeStyles((theme) => ({
 export function CardProduct(props){  
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const {producto} = props;
+  const confirm = useConfirm();
   const dispatch = useDispatch();
   const [icon, setIcon] = useState('cart');
   const cart = useSelector(store => store.cart.products);
+  const cartProduct = cart.find(item => item.id === producto.id);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const handleCloseModal = () => {
@@ -61,14 +65,43 @@ export function CardProduct(props){
     setOpen(true);
   };
 
+  const agregarProductoCarro = (producto, isExist) => {
+    dispatch(addCartProductAction(producto));
+    const message = isExist ? 'Cantidad Actualizada, Total: ' + isExist.quantity : 'Producto Agregado Correctamente';
+    enqueueSnackbar(message, { 
+          variant: 'success',
+    });
+  }
+
   const handleAddToCart = () => {
         producto.image = producto.images[0];
-        dispatch(addCartProductAction(producto));
         const isExist = cart.find( p => p.id === producto.id);
-        const message = isExist ? 'Cantidad Actualizada, Total: ' + isExist.quantity : 'Producto Agregado Correctamente';
-        enqueueSnackbar(message, { 
-            variant: 'success',
-        });
+        if(isExist){
+          if(isExist.quantity >= producto.stock){
+            confirm({ description: 'la cantidad de productos que estas cotizando excede nuestro stock, Quieres cotizarlo de todas maneras ?' })
+            .then(() => { 
+                agregarProductoCarro(producto,isExist);
+             })
+            .catch(() => { 
+              //;
+             });
+          }else{
+              agregarProductoCarro(producto,isExist);
+          }
+        }else{
+            if(producto.stock == 0){
+              confirm({ description: 'la cantidad de productos que estas cotizando excede nuestro stock, Quieres cotizarlo de todas maneras ?' })
+              .then(() => { 
+                  agregarProductoCarro(producto,isExist);
+              })
+              .catch(() => { 
+                //;
+              });
+            }else{
+              agregarProductoCarro(producto,isExist);
+            }
+
+        }      
   }
 
   const handleRemoveToCart = () => {
@@ -106,13 +139,13 @@ export function CardProduct(props){
           
           { icon == 'cart' ? 
           <IconButton aria-label="Agregar Al Carro" onClick={  producto.variants.length > 0 ?  handleClickOpenModal : handleAddToCart }>
-                <AddShoppingCartIcon ></AddShoppingCartIcon>
+               <Badge badgeContent={cartProduct ? cartProduct.quantity : 0 } color="secondary"><AddShoppingCartIcon ></AddShoppingCartIcon></Badge> 
           </IconButton> :
           <IconButton aria-label="Quitar del Carro" onClick={handleRemoveToCart}>
             <RemoveShoppingCartIcon style={{ color: red[500] }}></RemoveShoppingCartIcon>
           </IconButton>
         }
-          <IconButton aria-label="Ver Detalles" >
+          <IconButton aria-label="Ver Detalles" component={NavLink} to={'/details/' + producto.id }>
                 <VisibilityIcon></VisibilityIcon>
           </IconButton>
           {showProductPrice()}

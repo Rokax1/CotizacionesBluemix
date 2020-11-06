@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import BasePage from "./home/pages/BasePage";
 import generateStore from "./store";
 import { SnackbarProvider } from 'notistack';
+import { ConfirmProvider } from 'material-ui-confirm';
 require('./bootstrap');
 
 
@@ -15,12 +16,18 @@ if (document.getElementById("root")) {
     ReactDOM.render(
         <Provider store={store}>
             <ThemeProvider theme={theme}>
-                <SnackbarProvider maxSnack={5} anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                }} autoHideDuration={2000}> 
-                    <BasePage></BasePage>
-                </SnackbarProvider>
+                <ConfirmProvider defaultOptions={{
+                    title: 'Porfavor Confirma Esta Acción',
+                    confirmationText : 'Confirmar',
+                    cancellationText : 'Cancelar'
+                }}>
+                    <SnackbarProvider maxSnack={5} anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }} autoHideDuration={2000}> 
+                        <BasePage></BasePage>
+                    </SnackbarProvider>
+                </ConfirmProvider>
             </ThemeProvider>
         </Provider>,
         document.getElementById("root")

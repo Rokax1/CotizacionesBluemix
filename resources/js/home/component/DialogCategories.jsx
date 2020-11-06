@@ -56,7 +56,6 @@ export default function FullScreenDialog() {
   const classes = useStyles();
   const categories = useSelector( state => state.categories.categorias );
   const loader = useSelector( state => state.categories.loader );
-  console.log(categories);
   const stateStoreDrawer = useSelector(
         state => state.globalActions.openDrawerCategories
   );
@@ -82,7 +81,7 @@ export default function FullScreenDialog() {
           </Toolbar>
         </AppBar>
         <div className={classes.root}>
-          <Grid container spacing={4} align="center" justify="center">
+          <Grid container align="center" justify="center">
                 <Grid item lg={6} md={6} sm={10} xs={10} style={{marginTop : '20px'}}><BuscadorComponent handleClose={handleClose}></BuscadorComponent></Grid>
           </Grid>
           

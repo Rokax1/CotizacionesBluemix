@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::fallback(function () {
+Route::get('cotizacion/pdf/{cotizacion}','CotizacionController@show');
+Route::get('test','CotizacionController@test');
+Route::get('/{any}', function () {
     return view('welcome');
-});
+})->where('any', '.*');;

@@ -49,7 +49,7 @@ function FormLogin({ classes, history }) {
         const login = await loginService(dataForm);
         
         if(login.data.auth){
-            setToken(login.data.access_token, login.data.user.name, login.data.user.rol);
+            setToken(login.data.access_token, login.data.user.name, login.data.user.rol, login.data.user.cliente_id);
             setLoader(false);
             history.push("/");
         }else{

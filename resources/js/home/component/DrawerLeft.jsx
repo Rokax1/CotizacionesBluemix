@@ -14,6 +14,8 @@ import { useSelector } from "react-redux";
 import { useStylesDrawerLeft } from "../styles/useStylesDrawerLeft";
 import SettingsIcon from "@material-ui/icons/Settings";
 import LoyaltyIcon from "@material-ui/icons/Loyalty";
+import GroupIcon from '@material-ui/icons/Group';
+import ClearAllIcon from '@material-ui/icons/ClearAll';
 import AssessmentIcon from "@material-ui/icons/Assessment";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 const ColorButton = withStyles(theme => ({
@@ -32,9 +34,7 @@ const ColorButton = withStyles(theme => ({
 export function DrawerLeft() {
     const classes = useStylesDrawerLeft();
     let location = useLocation();
-    const stateStoreDrawer = useSelector(
-        state => state.globalActions.openDrawer
-    );
+    const stateStoreDrawer = true;
 
     return (
         <div className={classes.root}>
@@ -63,97 +63,50 @@ export function DrawerLeft() {
                     >
                         <ListItem
                             selected={
-                                location.pathname === "/sale" ? true : false
+                                location.pathname === "/cotizaciones" ? true : false
                             }
                             button
                             component={NavLink}
-                            to="/sale"
+                            to="/cotizaciones"
                             className={clsx({
                                 [classes.listItemDrawerClose]: !stateStoreDrawer,
                                 [classes.listItemDrawerOpen]: stateStoreDrawer
                             })}
                         >
                             <ListItemIcon>
-                                <LoyaltyIcon
+                                <ClearAllIcon
                                     style={
-                                        location.pathname === "/sale"
-                                            ? { color: "f4511e" }
+                                        location.pathname === "/cotizaciones"
+                                            ? { color: "#2720FF" }
                                             : {}
                                     }
                                 />
                             </ListItemIcon>
-                            <Box fontSize={14}>Venta</Box>
+                            <Box fontSize={14}>Cotizaciones</Box>
                         </ListItem>
 
                         <ListItem
                             selected={
-                                location.pathname === "/setting" ? true : false
+                                location.pathname === "/clientes" ? true : false
                             }
                             button
                             component={NavLink}
-                            to="/setting/product"
+                            to="/clientes"
                             className={clsx({
                                 [classes.listItemDrawerClose]: !stateStoreDrawer,
                                 [classes.listItemDrawerOpen]: stateStoreDrawer
                             })}
                         >
                             <ListItemIcon>
-                                <ListAltIcon
+                                <GroupIcon
                                     style={
-                                        location.pathname === "/setting"
-                                            ? { color: "f4511e" }
+                                        location.pathname === "/clientes"
+                                            ? { color: "#2720FF" }
                                             : {}
                                     }
                                 />
                             </ListItemIcon>
-                            <Box fontSize={14}>Inventario</Box>
-                        </ListItem>
-                        <ListItem
-                            selected={
-                                location.pathname === "/setting" ? true : false
-                            }
-                            button
-                            component={NavLink}
-                            to="/setting/product"
-                            className={clsx({
-                                [classes.listItemDrawerClose]: !stateStoreDrawer,
-                                [classes.listItemDrawerOpen]: stateStoreDrawer
-                            })}
-                        >
-                            <ListItemIcon>
-                                <AssessmentIcon
-                                    style={
-                                        location.pathname === "/setting"
-                                            ? { color: "f4511e" }
-                                            : {}
-                                    }
-                                />
-                            </ListItemIcon>
-                            <Box fontSize={14}>Reportes</Box>
-                        </ListItem>
-                        <Divider></Divider>
-                        <ListItem
-                            selected={
-                                location.pathname === "/setting" ? true : false
-                            }
-                            button
-                            component={NavLink}
-                            to="/setting/product"
-                            className={clsx({
-                                [classes.listItemDrawerClose]: !stateStoreDrawer,
-                                [classes.listItemDrawerOpen]: stateStoreDrawer
-                            })}
-                        >
-                            <ListItemIcon>
-                                <SettingsIcon
-                                    style={
-                                        location.pathname === "/setting"
-                                            ? { color: "f4511e" }
-                                            : {}
-                                    }
-                                />
-                            </ListItemIcon>
-                            <Box fontSize={14}>Configuraciones</Box>
+                            <Box fontSize={14}>Clientes</Box>
                         </ListItem>
                     </List>
                 </div>

@@ -30,6 +30,11 @@ class AuthController extends Controller
             }
      
             $user = $request->user();
+            if($user->rol == 'Cliente'){
+                $user->cliente_id = $user->Cliente[0]->id;
+            }else{
+                $user->cliente_id = null;
+            }
             //borrar token anterior 
             //$user->accessTokens()->delete();
             $tokenResult = $user->createToken('Personal Access Token');

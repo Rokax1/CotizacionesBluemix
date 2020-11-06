@@ -11,7 +11,7 @@ return (
     <div style={{marginTop : '100px'}}>
         
                         <Box display="flex" justifyContent="center" ><CircularProgress size={60}/></Box>
-                        <Box display="flex" justifyContent="center" style={{marginTop: '5px'}}> Obteniendo Productos ... </Box>
+                        <Box display="flex" justifyContent="center" style={{marginTop: '20px'}} > {text} </Box>
     </div>
 );
 }

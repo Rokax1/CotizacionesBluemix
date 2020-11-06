@@ -10,6 +10,7 @@ import {
     ListItemAvatar, Divider
 } from "@material-ui/core";
 import React from "react";
+import { useConfirm } from 'material-ui-confirm';
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
@@ -33,25 +34,54 @@ const useStyles = makeStyles((theme) => ({
 export default function VariantItemComponent(props){
 
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
+    const confirm = useConfirm();
     const classes = useStyles();
     const dispatch = useDispatch();
     const cart = useSelector(state => state.cart.products);
     const {variante,product} = props;
     const img =  variante.image ?  variante.image : product.images[0];
-
-    const handleVariantAddToCart = () => {
-        product.quantity = 1;
-        product.id = variante.id;
-        product.details = variante.options[0].name + ": " + variante.options[0].value;
-        product.image = img;
-        product.price = variante.price;
+    const agregarProductoCarro = (produc,isExist) => {
         dispatch(addCartProductAction(product));
-        const isExist = cart.find( p => p.id === product.id);
         const message = isExist ? 'Cantidad Actualizada, Total: ' + isExist.quantity : 'Producto Agregado Correctamente';
         enqueueSnackbar(message, { 
             variant: 'success',
         });
+    }
+    const handleVariantAddToCart = () => {
+        product.quantity = 1;
+        product.id = variante.id;
+        product.stock = variante.stock;
+        product.details = variante.options[0].name + ": " + variante.options[0].value;
+        product.sku = variante.sku;
+        product.image = img;
+        product.price = variante.price;
+        const producto = product;
+        const isExist = cart.find( p => p.id === product.id);
+        if(isExist){
+            if(isExist.quantity >= producto.stock){
+              confirm({ description: 'la cantidad de productos que estas cotizando excede nuestro stock, Quieres cotizarlo de todas maneras ?' })
+              .then(() => { 
+                  agregarProductoCarro(producto,isExist);
+               })
+              .catch(() => { 
+                //;
+               });
+            }else{
+                agregarProductoCarro(producto,isExist);
+            }
+          }else{
+              if(producto.stock == 0){
+                confirm({ description: 'la cantidad de productos que estas cotizando excede nuestro stock, Quieres cotizarlo de todas maneras ?' })
+                .then(() => { 
+                    agregarProductoCarro(producto,isExist);
+                })
+                .catch(() => { 
+                  //;
+                });
+              }else{
+                agregarProductoCarro(producto,isExist);
+              }
+          } 
     }
 
     return (

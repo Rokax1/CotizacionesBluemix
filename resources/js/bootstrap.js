@@ -22,7 +22,7 @@ window.axios.defaults.validateStatus =(status) => {
       revokeToken();
       window.location = '/login';
    }
-   return status >= 200 && status < 300; // default
+   return true; // default
 }
 
 

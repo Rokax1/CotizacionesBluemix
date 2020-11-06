@@ -9,15 +9,14 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import clsx from "clsx";
 import { NavLink, useLocation } from "react-router-dom";
 import { Box, Button, Divider, Grid } from "@material-ui/core";
-import DashboardIcon from "@material-ui/icons/Dashboard";
 import { useDispatch, useSelector } from "react-redux";
 import { HANDLE_OPEN_DRAWER } from "../../redux/types";
 import { useStylesDrawerLeft } from "../styles/useStylesDrawerLeft";
-import SettingsIcon from "@material-ui/icons/Settings";
 import LoyaltyIcon from "@material-ui/icons/Loyalty";
-import AssessmentIcon from "@material-ui/icons/Assessment";
-import ListAltIcon from "@material-ui/icons/ListAlt";
 import LogoBusiness from '../../login/components/LogoBusiness';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 const ColorButton = withStyles(theme => ({
     root: {
         color: "#d60000",
@@ -100,15 +99,60 @@ export function DrawerLeftClient() {
                             })}
                         >
                             <ListItemIcon>
-                                <LoyaltyIcon
+                                <ShoppingCartIcon 
                                     style={
                                         location.pathname === "/cart"
                                             ? { color: "#2720FF" }
                                             : {}
-                                    }
-                                />
+                                    }/>
                             </ListItemIcon>
                             <Box fontSize={14}>Carro De Cotización</Box>
+                        </ListItem>
+                        <ListItem
+                            selected={
+                                location.pathname === "/mis-cotizaciones" ? true : false
+                            }
+                            button
+                            onClick={handleDrawerClose}
+                            component={NavLink}
+                            to="/mis-cotizaciones"
+                            className={clsx({
+                                [classes.listItemDrawerClose]: !stateStoreDrawer,
+                                [classes.listItemDrawerOpen]: stateStoreDrawer
+                            })}
+                        >
+                            <ListItemIcon>
+                                <FormatListNumberedIcon 
+                                    style={
+                                        location.pathname === "/mis-cotizaciones"
+                                            ? { color: "#2720FF" }
+                                            : {}
+                                    }/>
+                            </ListItemIcon>
+                            <Box fontSize={14}>Mis Cotizaciones</Box>
+                        </ListItem>
+                        <ListItem
+                            selected={
+                                location.pathname === "/password-change" ? true : false
+                            }
+                            button
+                            onClick={handleDrawerClose}
+                            component={NavLink}
+                            to="/password-change"
+                            className={clsx({
+                                [classes.listItemDrawerClose]: !stateStoreDrawer,
+                                [classes.listItemDrawerOpen]: stateStoreDrawer
+                            })}
+                        >
+                            <ListItemIcon>
+                                <VpnKeyIcon 
+                                    style={
+                                        location.pathname === "/password-change"
+                                            ? { color: "#2720FF" }
+                                            : {}
+                                    }/>
+                            </ListItemIcon>
+                            <Box fontSize={14}>Cambiar Contraseña</Box>
                         </ListItem>
                         <Divider></Divider>
                     </List>
@@ -121,7 +165,6 @@ export function DrawerLeftClient() {
                   alignItems="center"
                   alignContent="center"
                   wrap="nowrap"
-                  
                 >
                   <Grid item lg={5}><LogoBusiness width={90} height={60}></LogoBusiness></Grid>
                 </Grid>

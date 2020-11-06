@@ -30,7 +30,6 @@ export const getCategoriesAction = () => async (dispatch,getState) => {
             let categoriasPrimarias = [];
             const categories = await axios.get("getCategories");
             const grouped = groupBy(categories.data, categoria => categoria.category.parent_id);
-            console.log(categoriasPrimarias)
             grouped.forEach( (grupo,key) => {
                 if(key == null){
                     grupo.map( (categoria) => {

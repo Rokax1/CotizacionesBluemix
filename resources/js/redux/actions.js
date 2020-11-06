@@ -17,7 +17,9 @@ function handleOpenDrawer(openDrawer) {
 function handleOpenDrawerCategories(openDrawer) {
     return { type: HANDLE_OPEN_DRAWER_CATEGORIES, value: openDrawer };
 }
-
+function openDialogEditClient(openDrawer) {
+    return { type: HANDLE_OPEN_DIALOG_CLIENT_EDIT, value: openDrawer };
+}
 function handleShowErrorsForm(payload) {
     return { type: HANDLE_SHOW_ERRORS_FORMS, value: payload };
 }

@@ -37,6 +37,12 @@ class ProductoController extends Controller
         return response()->json($respuesta, 200);
     }
 
+    public function getProducto($id){
+        $JumpsellerApi = new JumpsellerApi();
+        $respuesta = $JumpsellerApi->get("products/$id",[]);
+        return response()->json($respuesta,200);   
+    }
+
     public function getPrecio($productos){
         
         foreach($productos as $producto){
@@ -60,5 +66,7 @@ class ProductoController extends Controller
         }
         return $productos;
     }
+
+    
    
 }

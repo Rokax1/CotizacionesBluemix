@@ -1,6 +1,7 @@
 export const TOKEN_KEY = "TOKEN_KEY";
 export const USER = "USER";
 export const ROL = "ROL";
+export const CLIENTE = "CLIENTE";
 
 export function loginService(credentials) {
     try {
@@ -24,8 +25,9 @@ export function logout() {
     return false;
 }
 
-export function setToken(token, user,rol) {
+export function setToken(token, user,rol,cliente) {
     localStorage.setItem(TOKEN_KEY, `Bearer ${token}`);
+    localStorage.setItem(CLIENTE,cliente)
     localStorage.setItem(USER, user);
     localStorage.setItem(ROL,rol);
 }
